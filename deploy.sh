@@ -1,21 +1,25 @@
+#!/usr/bin/env sh
 
-#!/bin/bash
-
-# Set error handling
+# abort on errors
 set -e
 
-echo "Starting deployment process..."
-
-# Build the project
-echo "Building the project..."
+# build
 npm run build
 
-# Create a .nojekyll file to bypass Jekyll processing
-echo "Creating .nojekyll file..."
-touch dist/.nojekyll
+# navigate into the build output directory
+cd dist
 
-# Deploy using gh-pages
-echo "Deploying to GitHub Pages..."
-node deploy-script.js
+# create .nojekyll file to bypass Jekyll processing
+touch .nojekyll
 
-echo "Deployment completed!"
+# if you are deploying to a custom domain
+# echo 'www.example.com' > CNAME
+
+git init
+git add -A
+git commit -m 'deploy'
+
+# deploy to the main branch of your GitHub Pages repository
+git push -f git@github.com:mohankopuru/mohankopuru.github.io.git main
+
+cd -
